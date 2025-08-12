@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajalakshmi M - Senior XR Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            padding: 1rem 0;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .section:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .experience-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .timeline-item.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-left: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .timeline-content h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content .company {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content .date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .achievements {
+            list-style: none;
+        }
+
+        .achievements li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .achievements li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-content h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .template-card {
+            border: 2px dashed #ddd;
+            background: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .skill-category h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .contact {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-item a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .floating-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero .subtitle { font-size: 1.2rem; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .timeline-content { margin-left: 1rem; }
+            .floating-nav { display: none; }
+            nav ul { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <ul>
+                <li><a href="#home" onclick="scrollToSection('home')">Home</a></li>
+                <li><a href="#workshops" onclick="scrollToSection('workshops')">Workshops</a></li>
+                <li><a href="#achievements" onclick="scrollToSection('achievements')">Achievements</a></li>
+                <li><a href="#projects" onclick="scrollToSection('projects')">Projects</a></li>
+                <li><a href="#skills" onclick="scrollToSection('skills')">Skills</a></li>
+                <li><a href="#contact" onclick="scrollToSection('contact')">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="floating-nav">
+        <div class="nav-dot active" onclick="scrollToSection('home')"></div>
+        <div class="nav-dot" onclick="scrollToSection('experience')"></div>
+        <div class="nav-dot" onclick="scrollToSection('workshops')"></div>
+        <div class="nav-dot" onclick="scrollToSection('achievements')"></div>
+        <div class="nav-dot" onclick="scrollToSection('projects')"></div>
+        <div class="nav-dot" onclick="scrollToSection('skills')"></div>
+        <div class="nav-dot" onclick="scrollToSection('contact')"></div>
+    </div>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Rajalakshmi M</h1>
+            <p class="subtitle">Senior XR Developer & Unity Game Developer</p>
+            <p class="description">
+                Experienced XR Developer with 5 years in designing and delivering immersive AR/VR and metaverse applications. 
+                Specialized in Unity3D, Unreal Engine, and Web3 platforms with proven expertise in multiplayer systems and AI integration.
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn btn-primary" onclick="scrollToSection('projects')">View Projects</a>
+                <a href="#contact" class="btn btn-secondary" onclick="scrollToSection('contact')">Contact Me</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+        <div class="container">
+            <h2>Experience</h2>
+            <div class="experience-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Game Developer</h3>
+                        <div class="company">Aviram Studio</div>
+                        <div class="date">March 2022 - May 2024 | Kochi, India</div>
+                        <ul class="achievements">
+                            <li>Increased user engagement by 90% building game applications for Sandbox, Spatial, and Decentraland</li>
+                            <li>Delivered multiplayer PC games in 2D and 3D using Unity 3D and Unreal Engine for 1000+ users</li>
+                            <li>Achieved 80% boost in Multiplayer VR apps with real-time voice chat and gesture tracking</li>
+                            <li>Developed AI-assisted applications integrating ChatGPT API and Metahuman avatars</li>
+                            <li>Launched geospatial AR applications with location-based interactive mapping</li>
+                            <li>Led project management and UI/UX development for multiplayer mall experience</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Unity Developer</h3>
+                        <div class="company">KS Smart Solutions</div>
+                        <div class="date">August 2020 - December 2021 | Chennai, India</div>
+                        <ul class="achievements">
+                            <li>Enhanced user engagement delivering 3 immersive VR 360 experiences for Oculus Quest</li>
+                            <li>Completed 2 tangible table projects with 4 synchronized split-screen displays</li>
+                            <li>Released interactive 2D level-based minigames achieving 95% player retention</li>
+                            <li>Optimized performance for standalone VR deployment with efficient scene management</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Unity Developer - Internship</h3>
+                        <div class="company">AR VR Development Company</div>
+                        <div class="date">February 2020 - April 2020 | Bangalore, India</div>
+                        <ul class="achievements">
+                            <li>Developed immersive VR architectural walkthroughs using Unity3D</li>
+                            <li>Enhanced real estate and design visualization experiences for clients</li>
+                            <li>Managed backend logic and front-end systems for cross-functional sprint cycles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="workshops" class="section">
+        <div class="container">
+            <h2>Workshops Conducted</h2>
+            <div class="experience-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Two Days National Level Workshop on AR End Product</h3>
+                        <div class="company">BIT-Tech Fest 2021</div>
+                        <div class="date">2021</div>
+                        <p>Conducted comprehensive workshop on Augmented Reality end product development for national level participants.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Two Days Workshop on Augmented Reality and Industry 4.0</h3>
+                        <div class="company">Saveetha School Of Engineering, Chennai</div>
+                        <div class="date">January 2021</div>
+                        <p>Delivered workshop connecting AR technologies with Industry 4.0 applications and implementations.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Basics of Virtual / Augmented Reality</h3>
+                        <div class="company">Bannari Amman Institute Of Technology</div>
+                        <div class="date">June 2020</div>
+                        <p>Conducted foundational workshop on VR/AR for first and second-year students.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Virtual Reality/Augmented Reality Basics</h3>
+                        <div class="company">Bannari Amman Institute Of Technology</div>
+                        <div class="date">2019</div>
+                        <p>Introduced VR/AR fundamentals to final and pre-final year students.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="achievements" class="section">
+        <div class="container">
+            <h2>Achievements</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">🏆 TIE WOMEN SUMMIT</div>
+                    <div class="project-content">
+                        <h3>TIE Women Summit 2020 - Top 5 Finalist</h3>
+                        <p>Inshades reached Top 5 finalists in TIE Women Summit 2020, a virtual event focused on identifying, nurturing, and mentoring Women Entrepreneurs. 16 companies from various parts of India participated, with top 9 teams advancing to finals.</p>
+                        <div class="project-tags">
+                            <span class="tag">Entrepreneurship</span>
+                            <span class="tag">Women in Tech</span>
+                            <span class="tag">Top 5</span>
+                            <span class="tag">National Level</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">🎮 GOOGLE PLAY</div>
+                    <div class="project-content">
+                        <h3>Endless - Published Game</h3>
+                        <p>Successfully published "Endless" on Google Play Store - a brain activating 2D car game where players navigate through lanes, collecting squares while avoiding circles. Features endless gameplay with score tracking.</p>
+                        <div class="project-tags">
+                            <span class="tag">2D Game</span>
+                            <span class="tag">Google Play</span>
+                            <span class="tag">Published</span>
+                            <span class="tag">Mobile Game</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Template spaces for achievements -->
+                <div class="project-card template-card">
+                    <div class="project-content">
+                        <h3>Add Your Achievement Here</h3>
+                        <p>Template space for your next achievement or recognition. Replace this content with your accomplishment details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">Edugui 2020</div>
+                    <div class="project-content">
+                        <h3>Educational Virtual Fair</h3>
+                        <p>3D multiplayer experience in Unity3D supporting 100 concurrent users with real-time interaction in fully immersive environment. Collaboration with Black sheep YT.</p>
+                        <div class="project-tags">
+                            <span class="tag">Unity3D</span>
+                            <span class="tag">Multiplayer</span>
+                            <span class="tag">VR</span>
+                            <span class="tag">Real-time</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">AR Rack System</div>
+                    <div class="project-content">
+                        <h3>AR Rack Fixing System</h3>
+                        <p>AR application for Godrej Consultancy to assist technicians in accurate rack installation, featuring alignment detection, cost calculation, and real-time error checking.</p>
+                        <div class="project-tags">
+                            <span class="tag">Unity</span>
+                            <span class="tag">AR SDK</span>
+                            <span class="tag">Industrial</span>
+                            <span class="tag">Real-time</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🏛️ THRISSUR MUSEUM</div>
+                    <div class="project-content">
+                        <h3>Thrissur Museum Multiplayer VR Experience</h3>
+                        <p>Immersive multiplayer VR experience for Thrissur Museum allowing users to explore cultural exhibits together in real-time. Features realistic museum environments, synchronized interactions, spatial audio, voice chat, and interactive artifact exploration—bridging technology with heritage storytelling.</p>
+                        <div class="project-tags">
+                            <span class="tag">Unity</span>
+                            <span class="tag">Photon Fusion</span>
+                            <span class="tag">XR Toolkit</span>
+                            <span class="tag">Oculus Quest</span>
+                            <span class="tag">Multiplayer VR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🌍 GEOSPATIAL AR</div>
+                    <div class="project-content">
+                        <h3>Geospatial AR - Location-Based Experience</h3>
+                        <p>Location-based AR experience displaying the Aviram Studio logo precisely in front of the office using real-world GPS coordinates. Demonstrates precise AR anchoring, geolocation accuracy, and seamless integration of brand identity in physical environments.</p>
+                        <div class="project-tags">
+                            <span class="tag">Unity</span>
+                            <span class="tag">ARCore</span>
+                            <span class="tag">Geospatial API</span>
+                            <span class="tag">Location-based AR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🎨 KERALA CRAFTS VR</div>
+                    <div class="project-content">
+                        <h3>Kerala Arts and Crafts Village: VR and Spatial</h3>
+                        <p>Culturally immersive VR experience using photogrammetry to recreate traditional artworks and spaces with stunning realism. Users explore artisan studios, interact with handcrafted pieces, and experience Kerala's rich craft traditions through interactive XR design in Spatial Metaverse.</p>
+                        <div class="project-tags">
+                            <span class="tag">Unity</span>
+                            <span class="tag">Photogrammetry</span>
+                            <span class="tag">Meta Quest</span>
+                            <span class="tag">Spatial</span>
+                            <span class="tag">Web3</span>
+                            <span class="tag">Cultural Heritage</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <div class="container">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>🎮 Game Development</h3>
+                    <ul class="skill-list">
+                        <li>Unity 3D & Unreal Engine</li>
+                        <li>C# Programming</li>
+                        <li>Blueprint Scripting</li>
+                        <li>Multiplayer Development</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>🥽 XR Technologies</h3>
+                    <ul class="skill-list">
+                        <li>AR/VR Development</li>
+                        <li>XR Interaction Toolkit</li>
+                        <li>Oculus SDK</li>
+                        <li>HoloLens Development</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>🌐 Web3 & Metaverse</h3>
+                    <ul class="skill-list">
+                        <li>Web3 Integration</li>
+                        <li>Blockchain Features</li>
+                        <li>Sandbox Development</li>
+                        <li>Decentraland</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>💼 Project Management</h3>
+                    <ul class="skill-list">
+                        <li>Agile/Scrum Workflows</li>
+                        <li>UI/UX Design</li>
+                        <li>Cross-Functional Teams</li>
+                        <li>Full Lifecycle Management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2>Let's Create Something Amazing</h2>
+            <p>Ready to bring your XR vision to life? Let's discuss your next immersive project.</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <a href="mailto:ramyaa1304@gmail.com">ramyaa1304@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <a href="tel:+916374373901">+91 637 437 3901</a>
+                </div>
+                <div class="contact-item">
+                    <span>💼</span>
+                    <a href="https://linkedin.com/in/rajalakshmi-mahadevan-0b5898159/" target="_blank">LinkedIn</a>
+                </div>
+                <div class="contact-item">
+                    <span>💻</span>
+                    <a href="https://github.com/ramyaa13" target="_blank">GitHub</a>
+                </div>
+                <div class="contact-item">
+                    <span>📍</span>
+                    <span>Sathyamangalam, Tamil Nadu</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const headerHeight = document.querySelector('header').offsetHeight;
+            const offsetTop = section.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+
+        // Update active nav dot on scroll
+        window.addEventListener('scroll', () => {
+            const sections = ['home', 'experience', 'workshops', 'achievements', 'projects', 'skills', 'contact'];
+            const navDots = document.querySelectorAll('.nav-dot');
+            const scrollPos = window.scrollY + 200;
+
+            sections.forEach((section, index) => {
+                const element = document.getElementById(section);
+                if (element.offsetTop <= scrollPos && (element.offsetTop + element.offsetHeight) > scrollPos) {
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    navDots[index].classList.add('active');
+                }
+            });
+        });
+
+        // Animate timeline items on scroll
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Add hover effects to project cards
+        document.querySelectorAll('.project-card:not(.template-card)').forEach(card => {
+            card.addEventListener('click', function() {
+                // Here you could add a modal or detailed view
+                console.log('Project clicked:', this.querySelector('h3').textContent);
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(102, 126, 234, 0.9)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
